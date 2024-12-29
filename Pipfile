@@ -11,6 +11,7 @@ sqlmodel = "*"
 pydantic-settings = "*"
 pymysql = "*"
 cryptography = "*"
+kafka-python = "*"
 
 [dev-packages]
 

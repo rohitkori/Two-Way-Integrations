@@ -12,6 +12,9 @@ pydantic-settings = "*"
 pymysql = "*"
 cryptography = "*"
 kafka-python = "*"
+mysql-connector-python = "*"
+sqlalchemy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

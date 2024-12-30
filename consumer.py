@@ -24,7 +24,6 @@ def consumer_outwards_sync(topic_name):
     for message in consumer:
         message_str = message.value.decode('utf-8')
         message_data = json.loads(message_str)
-        print("message_data: ", message_data)
 
         add_to_stripe(message_data['customer'])
 

@@ -4,7 +4,7 @@ import json
 
 settings = Settings()
 
-def producer_outwards_sync(customer, action, topic_name):
+def publish_customer_event(customer, action, topic_name):
     producer = KafkaProducer(bootstrap_servers=settings.kafka_url)
 
     event = {

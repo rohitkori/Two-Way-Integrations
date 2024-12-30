@@ -6,12 +6,11 @@ import json
 settings = Settings()
 
 consumer = KafkaConsumer(
-    'stripe_to_system',
+    settings.inward_sync_kafka_topic,
     bootstrap_servers=settings.kafka_url,
-    value_deserializer=lambda m: json.loads(m.decode('utf-8'))
 )
 
-def upsert_customer(customer_data):
+def sync_customer_to_database(customer_data):
     engine = create_engine(settings.database_url)
     connection = engine.connect()
     
@@ -35,12 +34,12 @@ def upsert_customer(customer_data):
 
 def main():
     for message in consumer:
-        event = message.value
-        action = event['action']
+        # Decode and then convert to dict
+        event_str = message.value.decode('utf-8')
+        event = json.loads(event_str)
         customer = event['customer']
 
-        if action == 'create':
-            upsert_customer(customer)
+        sync_customer_to_database(customer)
 
 if __name__ == "__main__":
     main()

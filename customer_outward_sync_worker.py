@@ -5,6 +5,11 @@ import stripe
 
 settings = Settings()
 
+consumer = KafkaConsumer(
+        settings.outward_sync_kafka_topic,
+        bootstrap_servers=settings.kafka_url,
+    )
+
 def add_to_stripe(customer):
     stripe.api_key = settings.stripe_api_key
 
@@ -15,16 +20,14 @@ def add_to_stripe(customer):
 
     print("Stripe customer updated!!")
 
-def consumer_outwards_sync(topic_name):
-    consumer = KafkaConsumer(
-        topic_name,
-        bootstrap_servers=settings.kafka_url,
-    )
-
+def main():
     for message in consumer:
+        # Decode and then convert to dict
         message_str = message.value.decode('utf-8')
         message_data = json.loads(message_str)
 
-        add_to_stripe(message_data['customer'])
+        # can add more functions here for other integrations like salesforce.
+        add_to_stripe(message_data['customer']) 
 
-consumer_outwards_sync('system_to_stripe')
+if __name__ == "__main__":
+    main()

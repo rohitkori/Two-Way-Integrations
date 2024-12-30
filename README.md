@@ -23,7 +23,12 @@
     # Update .env with your values
     ```
 
-4. Start the services:
+4. Start the Kafka and Zookeeper(using docker-compose):
+    ```
+    docker compose up -d 
+    ```
+
+5. Start the services:
 
     a. Start FastAPI server:
     ```
@@ -40,7 +45,7 @@
     python customer_inward_sync_worker.py
     ```
 
-5. Set up Stripe webhook:
+6. Set up Stripe webhook:
     ```
     # Install and run ngrok
     ngrok http http://localhost:8000
